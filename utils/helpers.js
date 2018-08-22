@@ -10,7 +10,6 @@ export function getMetricMetaInfo (metric) {
       max: 50,
       unit: 'miles',
       step: 1,
-      //composed of two different buttons, a button for increment, and a button for decrement.
       type: 'steppers',
       getIcon() {
         return (
@@ -139,6 +138,8 @@ export function calculateDirection (heading) {
   return direction
 }
 
+//return a date after it has been formatted.
+//Don't forget to import it on the AddEntry.js
 export function timeToString (time = Date.now()) {
   const date = new Date(time)
   const todayUTC = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))

@@ -1,8 +1,21 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
-import { getMetricMetaInfo } from '../utils/helpers'
+import { View, TouchableOpacity, Text } from 'react-native'
+import { getMetricMetaInfo, timeToString } from '../utils/helpers'
+import UdaciSlider from './UdaciSlider'
+import UdaciSteppers from './UdaciSteppers'
+import DateHeader from './DateHeader'
 
-//metric for everything we are tracking.
+//import
+function SubmitBtn ({ onPress }) {
+  return (
+    <TouchableOpacity
+    //not onclick.
+      onPress={onPress}>
+        <Text>SUBMIT</Text>
+    </TouchableOpacity>
+  )
+}
+
 export default class AddEntry extends Component {
   state = {
     run: 0,
@@ -14,13 +27,10 @@ export default class AddEntry extends Component {
   increment = (metric) => {
     const { max, step } = getMetricMetaInfo(metric)
 
-//get current state;
     this.setState((state) => {
-    //specific property of the metric
       const count = state[metric] + step
-//merge with the current state;
+
       return {
-      //all state properties are staying the same;
         ...state,
         [metric]: count > max ? max : count,
       }
@@ -32,7 +42,6 @@ export default class AddEntry extends Component {
 
       return {
         ...state,
-        //make sure we are not going below zero;
         [metric]: count < 0 ? 0 : count,
       }
     })
@@ -42,10 +51,51 @@ export default class AddEntry extends Component {
       [metric]: value
     }))
   }
+  submit = () => {
+    const key = timeToString()
+    const entry = this.state
+
+    // Update Redux
+
+    this.setState(() => ({ run: 0, bike: 0, swim: 0, sleep: 0, eat: 0 }))
+
+    // Navigate to home
+
+    // Save to "DB"
+
+    // Clear local notification
+  }
   render() {
+    const metaInfo = getMetricMetaInfo()
+
     return (
       <View>
+      ////make it to a formatted string;
+        <DateHeader date={(new Date()).toLocaleDateString()}/>
+        {Object.keys(metaInfo).map((key) => {
+          const { getIcon, type, ...rest } = metaInfo[key]
+          const value = this.state[key]
 
+          return (
+            <View key={key}>
+              {getIcon()}
+              {type === 'slider'
+                ? <UdaciSlider
+                    value={value}
+                    onChange={(value) => this.slide(key, value)}
+                    {...rest}
+                  />
+                : <UdaciSteppers
+                    value={value}
+                    onIncrement={() => this.increment(key)}
+                    onDecrement={() => this.decrement(key)}
+                    {...rest}
+                  />}
+            </View>
+          )
+        })}
+        //render submit button;
+        <SubmitBtn onPress={this.submit} />
       </View>
     )
   }
