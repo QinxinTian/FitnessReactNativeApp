@@ -4,12 +4,12 @@ import { getMetricMetaInfo, timeToString } from '../utils/helpers'
 import UdaciSlider from './UdaciSlider'
 import UdaciSteppers from './UdaciSteppers'
 import DateHeader from './DateHeader'
+import { Ionicons } from '@expo/vector-icons'
+import TextButton from './TextButton'
 
-//import
 function SubmitBtn ({ onPress }) {
   return (
     <TouchableOpacity
-    //not onclick.
       onPress={onPress}>
         <Text>SUBMIT</Text>
     </TouchableOpacity>
@@ -65,12 +65,35 @@ export default class AddEntry extends Component {
 
     // Clear local notification
   }
+  reset = () => {
+    const key = timeToString()
+
+    // Update Redux
+
+    // Route to Home
+
+    // Update "DB"
+  }
   render() {
     const metaInfo = getMetricMetaInfo()
 
+    if (this.props.alreadyLogged) {
+      return (
+        <View>
+          <Ionicons
+            name={'ios-happy-outline'}
+            size={100}
+          />
+          <Text>You already logged your information for today.</Text>
+          <TextButton onPress={this.reset}>
+            Reset
+          </TextButton>
+        </View>
+      )
+    }
+
     return (
       <View>
-      ////make it to a formatted string;
         <DateHeader date={(new Date()).toLocaleDateString()}/>
         {Object.keys(metaInfo).map((key) => {
           const { getIcon, type, ...rest } = metaInfo[key]
@@ -83,7 +106,6 @@ export default class AddEntry extends Component {
                 ? <UdaciSlider
                     value={value}
                     onChange={(value) => this.slide(key, value)}
-                    //metaInfo
                     {...rest}
                   />
                 : <UdaciSteppers
@@ -95,7 +117,6 @@ export default class AddEntry extends Component {
             </View>
           )
         })}
-        //render submit button;
         <SubmitBtn onPress={this.submit} />
       </View>
     )
