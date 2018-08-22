@@ -1,4 +1,14 @@
 # FitnessReactNativeApp
+
+# Update on 8/22/2018
+
+TouchableHighlight
+TouchableOpacity
+TouchableNativeFeedback - Only supported on the Andriod
+TouchableWithoutFeedback
+
+Both Buttons and Touchables have access to an onpress prop.
+Touchables can be nested within the views, and the views can be nested within the touchables.
 # App introduction:
 This is a triathion tracking app.
 Track the meals and how are we eating for the specific day, as well as how many hours' sleep we get.
