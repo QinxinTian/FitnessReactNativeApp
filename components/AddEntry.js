@@ -83,6 +83,7 @@ export default class AddEntry extends Component {
                 ? <UdaciSlider
                     value={value}
                     onChange={(value) => this.slide(key, value)}
+                    //metaInfo
                     {...rest}
                   />
                 : <UdaciSteppers
