@@ -1,5 +1,64 @@
 # FitnessReactNativeApp
 
+# Updated on 8/23/2018
+
+For the long list, we cn use scrollview instead of the view.
+
+Also we can use flatList.
+
+
+export default class App extends React.Component {
+renderItem = ({ item }) => {
+return <Review {...item} />
+}
+render(){
+const reviews = getReviews()
+
+return {
+<View style={styles.container}>
+  <FlatList
+            data={reviews}
+            renderItem={this.renderItem}
+            />
+  </View>
+  }
+  }
+  
+  handleTextChange = (input) => {
+  this.setState (() => ({
+  input
+  }))
+  }
+  render(){
+  const { input, showInput } = this.state
+  
+  
+  return(
+  <keyboardAvoidingView behavior = 'padding' style={styles.container}>
+  <Image
+         source={{uri:''}}
+         style={styles.img}
+         />
+  
+  <Switch
+  value={showInput}
+  onValueChange={this.hanleToggleSwitch}
+  />
+  
+  {showInput === true && (
+  <TextInput
+  value={input}
+  style={styles.input}
+  onChange={this.handleTextChange}
+  />
+  )}
+  </keyboardAvoidingView>
+  )
+  }
+  
+  https://github.com/facebook/react-native/issues/16090
+  https://facebook.github.io/react-native/docs/sectionlist.html
+  
 # Update on 8/22/2018
 
 TouchableHighlight
