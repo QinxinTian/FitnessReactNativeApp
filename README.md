@@ -1,7 +1,7 @@
 # FitnessReactNativeApp
 
 # Updated notes ordered by dates are listed below the commits section on this page.
-# The Project introduction are on the bottom of this page.
+# The Project introduction is on the bottom of this page.
 
 # Commits
 
