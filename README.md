@@ -1,5 +1,27 @@
 # FitnessReactNativeApp
 
+# Updated notes ordered by dates are listed below the commits section on this page.
+# The Project introduction are on the bottom of this page.
+
+# Commits
+
+8/25
+- Added the styling of the icons and the styling of the submitBtn, also made them be depended on different platforms, e.g., Andriod, ios) and get them being positioned on a row, as well as changing the colors of the icons.
+- Added styling of the icons and changing the colors.
+
+
+8/24
+- Connect AddEntry, so we can submit the new Entry as well as we can reset the entry, shows to the users not to forget to log in the data for the day.
+- Create store.
+- Utilized the AsyncStorage and ADDED REDUX.
+
+8/22
+- Added TextButton component and update AddEntry
+- Updated the components
+- Create submitBtn method in the addEntry, and create the submitBtn component, render it in the addEntry, Update the UdaciStepper component, create Textbutton component, create reset method in the AddEntry, update the render method in the AddEntry.
+- Create increment, decrement and slide methods in the addEntry, create UdaciSliders component as well as the UdaciStepper component, create DateHeader component, update the render method in the AddEntry.
+- Updated AddEntry methods.
+
 # Updated on 8/23/2018
 
 For the long list, we cn use scrollview instead of the view.
