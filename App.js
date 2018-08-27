@@ -5,17 +5,15 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
 import History from './components/History'
-import { TabNavigator } from 'react-navigation'
+import { TabNavigator, StackNavigator } from 'react-navigation'
 import { purple, white } from './utils/colors'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
-//object
 import { Constants } from 'expo'
+import EntryDetail from './components/EntryDetail'
 
-//everything else
 function UdaciStatusBar ({backgroundColor, ...props}) {
   return (
     <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
-    //passing the props we get;
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
     </View>
   )
@@ -23,11 +21,9 @@ function UdaciStatusBar ({backgroundColor, ...props}) {
 
 const Tabs = TabNavigator({
   History: {
-  //render history component
     screen: History,
     navigationOptions: {
       tabBarLabel: 'History',
-      //function parameter
       tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
     },
   },
@@ -42,7 +38,6 @@ const Tabs = TabNavigator({
   navigationOptions: {
     header: null
   },
-  //object
   tabBarOptions: {
     activeTintColor: Platform.OS === 'ios' ? purple : white,
     style: {
@@ -59,13 +54,28 @@ const Tabs = TabNavigator({
   }
 })
 
+const MainNavigator = StackNavigator({
+  Home: {
+    screen: Tabs,
+  },
+  EntryDetail: {
+    screen: EntryDetail,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
+    }
+  }
+})
+
 export default class App extends React.Component {
   render() {
     return (
       <Provider store={createStore(reducer)}>
         <View style={{flex: 1}}>
           <UdaciStatusBar backgroundColor={purple} barStyle="light-content" />
-          <Tabs />
+          <MainNavigator />
         </View>
       </Provider>
     )
