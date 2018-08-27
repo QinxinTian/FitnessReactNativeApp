@@ -5,7 +5,6 @@ import { purple, gray, white } from '../utils/colors'
 
 export default function UdaciSteppers ({ max, unit, step, value, onIncrement, onDecrement }) {
   return (
-  //If vertically, space between.
     <View style={[styles.row, {justifyContent: 'space-between'}]}>
       {Platform.OS === 'ios'
         ? <View style={{flexDirection: 'row'}}>
