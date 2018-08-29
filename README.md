@@ -5,6 +5,12 @@
 
 # Commits
 
+8/27
+- Styled the sliders, dateHeader, reset button, added the history view, fetched calendar results, mapStateToProps.
+- Modified renderItem method, renderEmptyDate method, added metricCard method, improved style of page-loading.
+- Tab navigator, status bar, render by tab.
+- Used stackNavigator, navigationOptions, connect to redux, connected to EntryDetail using redux, EntryDetail reset function, toHome method.
+
 8/25
 - Added the styling of the icons and the styling of the submitBtn, also made them be depended on different platforms, e.g., Andriod, ios) and get them being positioned on a row, as well as changing the colors of the icons.
 - Added styling of the icons and changing the colors.
@@ -22,9 +28,28 @@
 - Create increment, decrement and slide methods in the addEntry, create UdaciSliders component as well as the UdaciStepper component, create DateHeader component, update the render method in the AddEntry.
 - Updated AddEntry methods.
 
-# Updated on 8/23/2018
+# Note Updated on 8/27/2018
+- yarn add UdaciFitness-calendar
+- flex box
+- platform API
+- StyleSheet API
+- StyleSheet does not support media queries. Use Dimension API
+- Styled-component API: use normal css
+- yarn-react-navigation
+- tab navigation
+- install react-navigation, import createBottomTabNavigator
+Const Tabs = createBottomTabNavigator({
+  Hello: {
+    screen: Hello
+  },
+  Goodbye: {
+    screen: Goodbye
+    },
+    });
+    render by tab
+- import createStackNavigator from react-navigation
 
-For the long list, we cn use scrollview instead of the view.
+- For the long list, we cn use scrollview instead of the view.
 
 Also we can use flatList.
 
