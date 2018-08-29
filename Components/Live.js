@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, ActivityIndicator, TouchableOpacity, StyleSheet, Animated } from 'react-native'
 import { Foundation } from '@expo/vector-icons'
 import { purple, white } from '../utils/colors'
 
@@ -7,7 +7,8 @@ export default class Live extends Component {
   state = {
     coords: null,
     status: null,
-    direction: ''
+    direction: '',
+    bounceValue: new Animated.Value(1),
   }
   componentDidMount () {
     Permissions.getAsync(Permissions.LOCATION)
@@ -25,14 +26,12 @@ export default class Live extends Component {
       })
   }
   askPermission = () => {
-  //make sure the permission is asked
     Permissions.askAsync(Permissions.LOCATION)
       .then(({ status }) => {
         if (status === 'granted') {
           return this.setLocation()
         }
 
-//The state is aware of this.
         this.setState(() => ({ status }))
       })
       .catch((error) => console.warn('error asking Location permission: ', error))
@@ -40,14 +39,18 @@ export default class Live extends Component {
   setLocation = () => {
     Location.watchPositionAsync({
       enableHighAccuracy: true,
-      //make it as quick as possible.
       timeInterval: 1,
       distanceInterval: 1,
-      //callback function
     }, ({ coords }) => {
       const newDirection = calculateDirection(coords.heading)
-      //get location from the state
       const { direction, bounceValue } = this.state
+
+      if (newDirection !== direction) {
+        Animated.sequence([
+          Animated.timing(bounceValue, { duration: 200, toValue: 1.04}),
+          Animated.spring(bounceValue, { toValue: 1, friction: 4})
+        ]).start()
+      }
 
       this.setState(() => ({
         coords,
@@ -56,12 +59,10 @@ export default class Live extends Component {
       }))
     })
   }
-  //grab the information off of the state
   render() {
-    const { status, coords, direction } = this.state
+    const { status, coords, direction, bounceValue } = this.state
 
     if (status === null) {
-    //render a spinner
       return <ActivityIndicator style={{marginTop: 30}}/>
     }
 
@@ -79,7 +80,6 @@ export default class Live extends Component {
     if (status === 'undetermined') {
       return (
         <View style={styles.center}>
-        //icon
           <Foundation name='alert' size={50} />
           <Text>
             You need to enable location services for this app.
@@ -97,9 +97,11 @@ export default class Live extends Component {
       <View style={styles.container}>
         <View style={styles.directionContainer}>
           <Text style={styles.header}>You're heading</Text>
-          <Text style={styles.direction}>
-            {direction}
-          </Text>
+          <Animated.Text
+          //an array, scale the bouncevalue
+            style={[styles.direction, {transform: [{scale: bounceValue}]}]}>
+              {direction}
+          </Animated.Text>
         </View>
         <View style={styles.metricContainer}>
           <View style={styles.metric}>
@@ -107,7 +109,6 @@ export default class Live extends Component {
               Altitude
             </Text>
             <Text style={[styles.subHeader, {color: white}]}>
-            //in order to convert it into the feet;
               {Math.round(coords.altitude * 3.2808)} Feet
             </Text>
           </View>
@@ -116,7 +117,6 @@ export default class Live extends Component {
               Speed
             </Text>
             <Text style={[styles.subHeader, {color: white}]}>
-            //in order to convert it into the miles.
               {(coords.speed * 2.2369).toFixed(1)} MPH
             </Text>
           </View>
